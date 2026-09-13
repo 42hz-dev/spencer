@@ -312,8 +312,9 @@ a {
 .chapter__opener {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 100svh;
-  background: var(--green);
+  padding-inline: max(0px, (100% - var(--page)) / 2);
+  overflow-x: clip;
+  background: radial-gradient(ellipse at 70% 50%, #264a3c 0%, var(--green) 55%, #142820 100%);
   color: var(--cream);
 }
 
@@ -369,33 +370,51 @@ a {
 }
 
 .chapter__hero {
-  position: relative;
-  min-height: 60svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2.5rem, 6vw, 6rem) var(--gutter);
 }
 
+/* 폴라로이드 + 뒤에 겹친 금색 액자 */
 .chapter__hero .photo {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: min(100%, 28rem);
+  padding: 0.9rem 0.9rem 0;
+  background: #fff;
+  box-shadow:
+    0 50px 90px -30px rgba(0, 0, 0, 0.7),
+    0 14px 28px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(2deg);
 }
 
-.chapter__hero .photo__link {
-  height: 100%;
+.chapter__hero .photo::before {
+  content: "";
+  position: absolute;
+  inset: -1.4rem;
+  z-index: -1;
+  border: 1px solid var(--gold-line);
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+.chapter:nth-of-type(even) .chapter__hero .photo {
+  transform: rotate(-2deg);
+}
+
+.chapter:nth-of-type(even) .chapter__hero .photo::before {
+  transform: rotate(4deg);
 }
 
 .chapter__hero .photo__image {
-  height: 100%;
-  aspect-ratio: auto;
+  aspect-ratio: 4 / 5;
 }
 
 .chapter__hero .photo__caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 4rem clamp(1rem, 3vw, 2rem) 1.4rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
-  color: var(--cream);
-  pointer-events: none;
+  align-items: center;
+  padding: 0.8rem 0.4rem 1rem;
+  color: var(--ink);
+  text-align: center;
 }
 
 .chapter__subtitle-en {
@@ -1291,8 +1310,11 @@ a {
   }
 
   .chapter__hero {
-    min-height: 0;
-    aspect-ratio: 4 / 5;
+    padding: 0 2rem clamp(2.5rem, 6vw, 6rem);
+  }
+
+  .chapter__hero .photo::before {
+    inset: -0.8rem;
   }
 
   .birthday__body {
